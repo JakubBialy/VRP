@@ -29,6 +29,14 @@ class Solution:
 
             return demand_sum
 
+    def copy(self):
+        single_car_solutions_deep_copy = []
+
+        for sol in self.single_car_solutions:
+            single_car_solutions_deep_copy.append(Solution.SingleCarSolution(sol.base, sol.cities[:]))
+
+        return Solution(single_car_solutions_deep_copy)
+
     def add_single_car_solution(self, single_car_solution: SingleCarSolution):
         self.single_car_solutions.append(single_car_solution)
 

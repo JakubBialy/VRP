@@ -55,7 +55,8 @@ class Solver:
     def generate_single_neighbour(self, bestCandidate: Solution):
         city_swap_num = randrange(max(int(bestCandidate.get_cities_count() * 0.5), 1)) + 1
 
-        single_solutions_copy = bestCandidate.single_car_solutions[:]
+        # single_solutions_copy = bestCandidate.single_car_solutions[:]
+        single_solutions_copy = bestCandidate.copy().single_car_solutions
 
         for i in range(city_swap_num):
             src_single_solution = single_solutions_copy[randrange(len(single_solutions_copy))]
