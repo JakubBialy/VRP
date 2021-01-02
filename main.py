@@ -63,7 +63,7 @@ while (iterations > max_iterations):  # Dodać warunek wyjścia z pętli
     if (solver.fitness(bestCandidate) > solver.fitness(sBest)):
         sBest = bestCandidate
 
-    tabuList.append(bestCandidate)  # todo czy nie trzeba zamienć na append?
+    tabuList.append(bestCandidate)
 
     if (len(tabuList) > maxTabuSize):
         del tabuList[0]  # removeFirst

@@ -26,6 +26,14 @@ class Problem:
                 dist = geopy.distance.geodesic(coords_1, coords_2).km
                 result[first_index][second_index] = dist
 
+        return result
+
+    def get_distance_between(self, first_city, second_city):
+        first_city_index = self.cities.index(first_city)
+        second_city_index = self.cities.index(second_city)
+
+        return self.distance_matrix[first_city_index][second_city_index]
+
     class City:
 
         def __init__(self, name, latitude, longitude, demand):
