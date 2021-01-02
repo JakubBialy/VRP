@@ -53,7 +53,8 @@ iterations = 0
 max_iterations = 10_000
 
 while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
-    sNeighborHood = solver.getNeighbors(bestCandidate)
+    # sNeighborHood = solver.get_neighbors(bestCandidate)
+    sNeighborHood = solver.get_neighbors_v2(bestCandidate)
     # sNeighborHood = solver.get_fake_neighbors(bestCandidate)
     bestCandidate = sNeighborHood[0]  # sNeighborHood.firstElement
 

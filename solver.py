@@ -55,8 +55,6 @@ class Solver:
 
     def generate_single_neighbour(self, bestCandidate: Solution):
         city_swap_num = randrange(max(int(bestCandidate.get_cities_count() * self.mutation_rate), 1)) + 1
-
-        # single_solutions_copy = bestCandidate.single_car_solutions[:]
         single_solutions_copy = bestCandidate.copy().single_car_solutions
 
         for i in range(city_swap_num):
@@ -73,13 +71,47 @@ class Solver:
 
         return Solution(single_solutions_copy)
 
-    def getNeighbors(self, bestCandidate: Solution):
+    def generate_single_neighbour_v2(self, bestCandidate: Solution):
+        city_relocations_num = randrange(
+            max(int(len(bestCandidate.single_car_solutions) * (0.5 + self.mutation_rate)), 1)) + 1
+        single_solutions_copy = bestCandidate.copy().single_car_solutions
+
+        detached_cities = []
+
+        for city in range(city_relocations_num):
+            dst_single_solution = single_solutions_copy[randrange(len(single_solutions_copy))]
+            if len(dst_single_solution.cities) > 0:
+                src_city_index = randrange(len(dst_single_solution.cities))
+
+                detached_cities.append(dst_single_solution.cities[src_city_index])
+                del dst_single_solution.cities[src_city_index]
+
+        for city in detached_cities:
+            dst_single_solution = single_solutions_copy[randrange(len(single_solutions_copy))]
+
+            dst_single_solution.cities.append(city)
+
+        return Solution(single_solutions_copy)
+
+    def get_neighbors(self, bestCandidate: Solution):
         result = []
 
-        for i in range(randrange(8) + 1):
+        for i in range(randrange(16) + 1):
             candidate = self.generate_single_neighbour(bestCandidate)
             while not candidate.is_valid_solution(self.problem):
                 candidate = self.generate_single_neighbour(bestCandidate)
+
+            result.append(candidate)
+
+        return result
+
+    def get_neighbors_v2(self, bestCandidate: Solution):
+        result = []
+
+        for i in range(randrange(16) + 1):
+            candidate = self.generate_single_neighbour_v2(bestCandidate)
+            while not candidate.is_valid_solution(self.problem):
+                candidate = self.generate_single_neighbour_v2(bestCandidate)
 
             result.append(candidate)
 
@@ -92,6 +124,7 @@ class Solver:
             tmp.append(self.generateDummySolution(1024))
 
         return tmp
+
     def fitness(self, solution: Solution):
         distances_sum = 0
 
