@@ -3,9 +3,15 @@ from problem import Problem
 from solution import Solution
 from solver import Solver
 
+# 1. Execute: pip install matplotlib
+# 2. Download basemap-1.2.2 (https://download.lfd.uci.edu/pythonlibs/z4tqcw5k/basemap-1.2.2-cp39-cp39-win_amd64.whl)
+# 3. Execute: pip install basemap-1.2.2-cp39-cp39-win_amd64.whl
+from mpl_toolkits.basemap import Basemap
+import matplotlib.pyplot as plt
+
 ##Params
-maxTabuSize = 16  # todo pobrac wartosc od usera
-mutation_rate = 0.15
+maxTabuSize = 8  # todo pobrac wartosc od usera
+mutation_rate = 0.05
 
 ##Problem
 cities = [
@@ -40,6 +46,29 @@ cities = [
     Problem.City('Zakopane', 49.299171, 19.94902, 200),
     Problem.City('Zamość', 50.717369, 23.25276, 300),
 ]
+
+fig = plt.figure(figsize=(8, 8))
+m = m = Basemap(projection='gnom', lat_0=52, lon_0=19.25,
+                width=7E5, height=7E5, resolution='h')
+
+m.fillcontinents(color="#FFDDCC", lake_color='#DDEEFF')
+m.drawmapboundary(fill_color="#DDEEFF")
+m.drawcountries()
+
+
+for city in cities:
+    x, y = m(city.longitude, city.latitude)
+    plt.plot(x, y, 'ok', markersize=5)
+
+    if city.name == 'Gliwice' :
+        plt.text(x, y, city.name + '  ', fontsize=7, horizontalalignment='right')
+    else:
+        plt.text(x, y, '  ' + city.name, fontsize=7)
+
+fig.tight_layout()
+plt.show()
+
+
 p = Problem(5, 1000, cities)
 solver = Solver(p, mutation_rate)
 
@@ -72,6 +101,5 @@ while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
         del tabuList[0]  # removeFirst
 
     iterations = iterations + 1
-
 
 print(sBest)
