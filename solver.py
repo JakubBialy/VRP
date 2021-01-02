@@ -46,7 +46,7 @@ class Solver:
                         return problem_solution
 
             if len(cities_copy) == 0:
-                print("Initial solution found in " + str(tries_counter + 1) + " try!")
+                # print("Initial solution found in " + str(tries_counter + 1) + " try!")
                 return problem_solution
 
             tries_counter = tries_counter + 1

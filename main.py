@@ -50,9 +50,9 @@ bestCandidate = s0
 tabuList = []
 tabuList.append(s0)
 iterations = 0
-max_iterations = 10
+max_iterations = 100_000
 
-while (iterations > max_iterations):  # Dodać warunek wyjścia z pętli
+while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
     sNeighborHood = solver.getNeighbors(bestCandidate)
     bestCandidate = sNeighborHood[0]  # sNeighborHood.firstElement
 
@@ -60,8 +60,9 @@ while (iterations > max_iterations):  # Dodać warunek wyjścia z pętli
         if ((not sCandidate in tabuList) and (solver.fitness(sCandidate) > solver.fitness(bestCandidate))):
             bestCandidate = sCandidate
 
-    if (solver.fitness(bestCandidate) > solver.fitness(sBest)):
+    if (solver.fitness(bestCandidate) < solver.fitness(sBest)):
         sBest = bestCandidate
+        print('Current best: ' + str(solver.fitness(sBest)))
 
     tabuList.append(bestCandidate)
 
@@ -69,5 +70,6 @@ while (iterations > max_iterations):  # Dodać warunek wyjścia z pętli
         del tabuList[0]  # removeFirst
 
     iterations = iterations + 1
+
 
 print(sBest)
