@@ -43,7 +43,7 @@ class Solution:
             return self.base == other.base and self.cities == other.cities
 
         def __hash__(self):
-            return int(hash(hash(self.base) * len(self.cities)))
+            return int(hash(hash(self.base) * (len(self.cities) + 1)))
 
     def copy(self):
         single_car_solutions_deep_copy = []

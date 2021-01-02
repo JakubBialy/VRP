@@ -51,4 +51,4 @@ class Problem:
                    self.longitude == other.longitude
 
         def __hash__(self):
-            return int(hash(self.name) * self.demand * self.latitude * self.longitude)
+            return int(hash(self.name) * (self.demand + 1) * (self.latitude + 10000) * (self.longitude + 1000))
