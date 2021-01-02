@@ -6,8 +6,9 @@ from random import randrange
 
 
 class Solver:
-    def __init__(self, problem):
+    def __init__(self, problem, mutation_rate: int):
         self.problem = problem
+        self.mutation_rate = mutation_rate
 
     def generateDummySolution(self, max_tries):
         tries_counter = 0
@@ -53,7 +54,7 @@ class Solver:
         raise Exception('Valid solution can\'t be found')
 
     def generate_single_neighbour(self, bestCandidate: Solution):
-        city_swap_num = randrange(max(int(bestCandidate.get_cities_count() * 0.5), 1)) + 1
+        city_swap_num = randrange(max(int(bestCandidate.get_cities_count() * self.mutation_rate), 1)) + 1
 
         # single_solutions_copy = bestCandidate.single_car_solutions[:]
         single_solutions_copy = bestCandidate.copy().single_car_solutions
@@ -84,14 +85,13 @@ class Solver:
 
         return result
 
-    # def get_fake_neighbors(self, ignored):
-    #     tmp = []
-    #
-    #     for i in range(randrange(10) + 1):
-    #         tmp.append(self.generateDummySolution(1024))
-    #
-    #     return tmp  # todo
+    def get_fake_neighbors(self, ignored):
+        tmp = []
 
+        for i in range(randrange(10) + 1):
+            tmp.append(self.generateDummySolution(1024))
+
+        return tmp
     def fitness(self, solution: Solution):
         distances_sum = 0
 

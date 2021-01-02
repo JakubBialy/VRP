@@ -5,6 +5,7 @@ from solver import Solver
 
 ##Params
 maxTabuSize = 1  # todo pobrac wartosc od usera
+mutation_rate = 0.05
 
 ##Problem
 cities = [
@@ -40,8 +41,7 @@ cities = [
     Problem.City('Zamość', 50.717369, 23.25276, 300),
 ]
 p = Problem(5, 1000, cities)
-
-solver = Solver(p)
+solver = Solver(p, mutation_rate)
 
 s0 = solver.generateDummySolution(1024)
 
@@ -54,6 +54,7 @@ max_iterations = 10_000
 
 while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
     sNeighborHood = solver.getNeighbors(bestCandidate)
+    # sNeighborHood = solver.get_fake_neighbors(bestCandidate)
     bestCandidate = sNeighborHood[0]  # sNeighborHood.firstElement
 
     for sCandidate in sNeighborHood:
