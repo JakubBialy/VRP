@@ -11,9 +11,8 @@ class Solver:
 
     def generateDummySolution(self, max_tries):
         tries_counter = 0
-        valid_solution_found = False
 
-        while not valid_solution_found and tries_counter < max_tries:
+        while tries_counter < max_tries:
             cities_copy = self.problem.cities[:]
             base_city = self.problem.cities[0]
             problem_solution = Solution()
@@ -53,16 +52,44 @@ class Solver:
 
         raise Exception('Valid solution can\'t be found')
 
-    def getNeighbors(self, bestCandidate):
-         return [Solution(), Solution()]  # todo
+    def generate_single_neighbour(self, bestCandidate: Solution):
+        city_swap_num = randrange(max(int(bestCandidate.get_cities_count() * 0.5), 1)) + 1
 
-    def get_fake_neighbors(self, ignored):
-        tmp = []
+        single_solutions_copy = bestCandidate.single_car_solutions[:]
 
-        for i in range(randrange(10) + 1):
-            tmp.append(self.generateDummySolution(1024))
+        for i in range(city_swap_num):
+            src_single_solution = single_solutions_copy[randrange(len(single_solutions_copy))]
+            src_city_index = randrange(len(src_single_solution.cities))
 
-        return tmp  # todo
+            dst_single_solution = single_solutions_copy[randrange(len(single_solutions_copy))]
+            dst_city_index = randrange(len(dst_single_solution.cities))
+
+            tmp_city = dst_single_solution.cities[dst_city_index]
+
+            dst_single_solution.cities[dst_city_index] = src_single_solution.cities[src_city_index]
+            src_single_solution.cities[src_city_index] = tmp_city
+
+        return Solution(single_solutions_copy)
+
+    def getNeighbors(self, bestCandidate: Solution):
+        result = []
+
+        for i in range(randrange(8) + 1):
+            candidate = self.generate_single_neighbour(bestCandidate)
+            while not candidate.is_valid_solution(self.problem):
+                candidate = self.generate_single_neighbour(bestCandidate)
+
+            result.append(candidate)
+
+        return result
+
+    # def get_fake_neighbors(self, ignored):
+    #     tmp = []
+    #
+    #     for i in range(randrange(10) + 1):
+    #         tmp.append(self.generateDummySolution(1024))
+    #
+    #     return tmp  # todo
 
     def fitness(self, solution: Solution):
         distances_sum = 0
