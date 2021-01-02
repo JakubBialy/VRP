@@ -4,8 +4,8 @@ from solution import Solution
 from solver import Solver
 
 ##Params
-maxTabuSize = 1  # todo pobrac wartosc od usera
-mutation_rate = 0.05
+maxTabuSize = 16  # todo pobrac wartosc od usera
+mutation_rate = 0.15
 
 ##Problem
 cities = [

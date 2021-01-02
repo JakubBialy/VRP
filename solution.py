@@ -10,6 +10,12 @@ class Solution:
             single_car_solutions = []
         self.single_car_solutions = single_car_solutions
 
+    def __eq__(self, other):
+        if not isinstance(other, Solution):
+            return False
+
+        return set(self.single_car_solutions) == set(other.single_car_solutions)
+
     def get_cities_count(self):
         cities_sum = 0
         for single_car_solution in self.single_car_solutions:
@@ -28,6 +34,16 @@ class Solution:
                 demand_sum = demand_sum + city.demand
 
             return demand_sum
+
+        def __eq__(self, other):
+            if not isinstance(other, Solution.SingleCarSolution):
+                return False
+
+            # return self.base == other.base and set(self.cities) == set(other.cities)
+            return self.base == other.base and self.cities == other.cities
+
+        def __hash__(self):
+            return hash(str(self.base) * len(self.cities))
 
     def copy(self):
         single_car_solutions_deep_copy = []

@@ -35,9 +35,17 @@ class Problem:
         return self.distance_matrix[first_city_index][second_city_index]
 
     class City:
-
         def __init__(self, name, latitude, longitude, demand):
             self.name = name
             self.demand = demand
             self.latitude = latitude
             self.longitude = longitude
+
+        def __eq__(self, other):
+            if not isinstance(other, Problem.City):
+                return False
+
+            return self.name == other.name and \
+                   self.demand == other.demand and \
+                   self.latitude == other.latitude and \
+                   self.longitude == other.longitude
