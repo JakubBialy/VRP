@@ -57,7 +57,7 @@ while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
     bestCandidate = sNeighborHood[0]  # sNeighborHood.firstElement
 
     for sCandidate in sNeighborHood:
-        if ((not sCandidate in tabuList) and (solver.fitness(sCandidate) > solver.fitness(bestCandidate))):
+        if ((not sCandidate in tabuList) and (solver.fitness(sCandidate) < solver.fitness(bestCandidate))):
             bestCandidate = sCandidate
 
     if (solver.fitness(bestCandidate) < solver.fitness(sBest)):
