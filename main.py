@@ -50,7 +50,7 @@ bestCandidate = s0
 tabuList = []
 tabuList.append(s0)
 iterations = 0
-max_iterations = 10_000
+max_iterations = 16_000
 
 while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
     # sNeighborHood = solver.get_neighbors(bestCandidate)

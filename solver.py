@@ -6,7 +6,7 @@ from random import randrange
 
 
 class Solver:
-    def __init__(self, problem, mutation_rate: int):
+    def __init__(self, problem, mutation_rate: float):
         self.problem = problem
         self.mutation_rate = mutation_rate
 
