@@ -49,3 +49,6 @@ class Problem:
                    self.demand == other.demand and \
                    self.latitude == other.latitude and \
                    self.longitude == other.longitude
+
+        def __hash__(self):
+            return int(hash(self.name) * self.demand * self.latitude * self.longitude)
