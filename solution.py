@@ -1,6 +1,8 @@
 class Solution:
 
-    def __init__(self, single_car_solutions: [] = []):
+    def __init__(self, single_car_solutions=None):
+        if single_car_solutions is None:
+            single_car_solutions = []
         self.single_car_solutions = single_car_solutions
 
     class SingleCarSolution:

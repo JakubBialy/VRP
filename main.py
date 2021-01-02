@@ -43,7 +43,7 @@ p = Problem(5, 1000, cities)
 
 solver = Solver(p)
 
-s0 = solver.generateDummySolution()
+s0 = solver.generateDummySolution(1024)
 
 sBest = s0
 bestCandidate = s0
