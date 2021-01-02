@@ -54,7 +54,15 @@ class Solver:
         raise Exception('Valid solution can\'t be found')
 
     def getNeighbors(self, bestCandidate):
-        return [Solution(), Solution()]  # todo
+         return [Solution(), Solution()]  # todo
+
+    def get_fake_neighbors(self, ignored):
+        tmp = []
+
+        for i in range(randrange(10) + 1):
+            tmp.append(self.generateDummySolution(1024))
+
+        return tmp  # todo
 
     def fitness(self, solution: Solution):
         distances_sum = 0
