@@ -2,6 +2,8 @@ from person import Person
 from problem import Problem
 from solution import Solution
 from solver import Solver
+from termcolor import colored
+
 
 # 1. Execute: pip install matplotlib
 # 2. Download basemap-1.2.2 (https://download.lfd.uci.edu/pythonlibs/z4tqcw5k/basemap-1.2.2-cp39-cp39-win_amd64.whl)
@@ -17,19 +19,39 @@ import matplotlib.pyplot as plt
 ## User Params
 
 number_of_cars = input("Enter number of cars [int]: ")  # 5
-number_of_cars = int(number_of_cars)
+try:
+    number_of_cars = int(number_of_cars)
+except ValueError:
+    print(colored("[Parse error] Number of cars default value (5) loaded", 'red'))
+    number_of_cars = 5
 
-car_capacity = input("Enter car capacity [int]: ")  # 1000
-car_capacity = int(car_capacity)
+car_capacity = input("Enter car capacity [int]: ")  # 1_000
+try:
+    car_capacity = int(car_capacity)
+except ValueError:
+    print(colored("[Parse error] Car capacity default value (1_000) loaded", 'red'))
+    car_capacity = 1_000
 
 maxTabuSize = input("Enter tabu list size [int]: ")  # 8
-maxTabuSize = int(maxTabuSize)
+try:
+    maxTabuSize = int(maxTabuSize)
+except ValueError:
+    print(colored("[Parse error] Max Tabu Size default value (8) loaded", 'red'))
+    maxTabuSize = 8
 
 mutation_rate = input("Enter mutation rate [float]: ")  # 0.05
-mutation_rate = float(mutation_rate)
+try:
+    mutation_rate = float(mutation_rate)
+except ValueError:
+    print(colored("[Parse error] Mutation rate default value (0.05) loaded", 'red'))
+    mutation_rate = 0.05
 
 max_iterations = input("Enter max iterations [int]: ")  # 10_000
-max_iterations = int(max_iterations)
+try:
+    max_iterations = int(max_iterations)
+except ValueError:
+    print(colored("[Parse error] Max iteration default value (10_000) loaded", 'red'))
+    max_iterations = 10_000
 
 ## Problem
 cities = [
@@ -107,7 +129,7 @@ while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
 
     if (solver.fitness(bestCandidate) < solver.fitness(sBest)):
         sBest = bestCandidate
-        print('Current best: ' + str(solver.fitness(sBest)))
+        print('Current best: ' + str(solver.fitness(sBest)) + ' (iteration: ' + str(iterations) + ')')
 
     tabuList.append(bestCandidate)
 
