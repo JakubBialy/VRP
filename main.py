@@ -14,12 +14,24 @@ from solver import Solver
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 
-##Params
+## User Params
 
-maxTabuSize = 8
-mutation_rate = 0.05
+number_of_cars = input("Enter number of cars [int]: ")  # 5
+number_of_cars = int(number_of_cars)
 
-##Problem
+car_capacity = input("Enter car capacity [int]: ")  # 1000
+car_capacity = int(car_capacity)
+
+maxTabuSize = input("Enter tabu list size [int]: ")  # 8
+maxTabuSize = int(maxTabuSize)
+
+mutation_rate = input("Enter mutation rate [float]: ")  # 0.05
+mutation_rate = float(mutation_rate)
+
+max_iterations = input("Enter max iterations [int]: ")  # 10_000
+max_iterations = int(max_iterations)
+
+## Problem
 cities = [
     Problem.City('Białystok', 53.132488, 23.16884, 500),
     Problem.City('Bielsko-Biała', 49.807621, 19.05584, 50),
@@ -72,7 +84,7 @@ for city in cities:
 
 fig.tight_layout()
 
-p = Problem(5, 1000, cities)
+p = Problem(number_of_cars, car_capacity, cities)
 solver = Solver(p, mutation_rate)
 
 s0 = solver.generateDummySolution(1024)
@@ -82,7 +94,6 @@ bestCandidate = s0
 tabuList = []
 tabuList.append(s0)
 iterations = 0
-max_iterations = 1_000
 
 while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
     # sNeighborHood = solver.get_neighbors(bestCandidate)
