@@ -114,11 +114,10 @@ bestCandidate = s0
 tabuList = []
 tabuList.append(s0)
 iterations = 0
-
-while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
-    # sNeighborHood = solver.get_neighbors(bestCandidate)
-    sNeighborHood = solver.get_neighbors_v2(bestCandidate)
-    # sNeighborHood = solver.get_fake_neighbors(bestCandidate)
+from time import time
+t0 = time()
+while (iterations < max_iterations):
+    sNeighborHood = solver.get_neighbors(bestCandidate, True)
     bestCandidate = sNeighborHood[0]  # sNeighborHood.firstElement
 
     for sCandidate in sNeighborHood:
@@ -136,6 +135,8 @@ while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
 
     iterations = iterations + 1
 
+delta = (time() - t0)
+print(delta)
 print(sBest)
 
 for index, singleCarSolution in enumerate(sBest.single_car_solutions):

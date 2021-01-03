@@ -10,11 +10,50 @@ class Solution:
             single_car_solutions = []
         self.single_car_solutions = single_car_solutions
 
-    def __eq__(self, other):
+    # def __eq__(self, other): #v1
+    #     if not isinstance(other, Solution):
+    #         return False
+    #
+    #     return set(self.single_car_solutions) == set(other.single_car_solutions)
+
+    def __eq__(self, other):  # v2
         if not isinstance(other, Solution):
             return False
 
-        return set(self.single_car_solutions) == set(other.single_car_solutions)
+        if len(self.single_car_solutions) == len(other.single_car_solutions):
+            self_demands = []
+            other_demands = []
+
+            for sol in self.single_car_solutions:
+                self_demands.append(sol.compute_demand())
+
+            for sol in other.single_car_solutions:
+                other_demands.append(sol.compute_demand())
+
+            if sorted(self_demands) == sorted(other_demands):
+                return set(self.single_car_solutions) == set(other.single_car_solutions)
+        else:
+            return False
+
+
+    # def __eq__(self, other):  # v3
+    #     if not isinstance(other, Solution):
+    #         return False
+    #
+    #     if len(self.single_car_solutions) == len(other.single_car_solutions):
+    #         self_routes = []
+    #         other_routes = []
+    #
+    #         for sol in self.single_car_solutions:
+    #             self_routes.append(sol.get_cities_name_list())
+    #
+    #         for sol in other.single_car_solutions:
+    #             other_routes.append(sol.get_cities_name_list())
+    #
+    #         if sorted(self_routes) == sorted(other_routes):
+    #             return True
+    #     else:
+    #         return False
 
     def get_cities_count(self):
         cities_sum = 0
@@ -35,12 +74,20 @@ class Solution:
 
             return demand_sum
 
+        def get_cities_name_list(self):
+            result = []
+            for city in self.cities:
+                result.append(city.name)
+
+            return result
+
         def __eq__(self, other):
             if not isinstance(other, Solution.SingleCarSolution):
                 return False
 
             # return self.base == other.base and set(self.cities) == set(other.cities)
-            return self.base == other.base and self.cities == other.cities
+            # return self.base == other.base and self.cities == other.cities
+            return self.cities == other.cities
 
         def __hash__(self):
             return int(hash(hash(self.base) * (len(self.cities) + 1)))

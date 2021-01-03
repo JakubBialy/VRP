@@ -45,10 +45,10 @@ class Problem:
             if not isinstance(other, Problem.City):
                 return False
 
-            return self.name == other.name and \
+            return self.latitude == other.latitude and \
+                   self.longitude == other.longitude and \
                    self.demand == other.demand and \
-                   self.latitude == other.latitude and \
-                   self.longitude == other.longitude
+                   self.name == other.name
 
         def __hash__(self):
             return int(hash(self.name) * (self.demand + 1) * (self.latitude + 10000) * (self.longitude + 1000))

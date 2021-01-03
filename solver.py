@@ -93,7 +93,7 @@ class Solver:
 
         return Solution(single_solutions_copy)
 
-    def get_neighbors(self, bestCandidate: Solution):
+    def get_neighbors(self, bestCandidate: Solution, include_v2=False):
         result = []
 
         for i in range(randrange(16) + 1):
@@ -103,9 +103,12 @@ class Solver:
 
             result.append(candidate)
 
+        if include_v2:
+            result.extend(self.__get_neighbors_v2(bestCandidate))
+
         return result
 
-    def get_neighbors_v2(self, bestCandidate: Solution):
+    def __get_neighbors_v2(self, bestCandidate: Solution):
         result = []
 
         for i in range(randrange(16) + 1):
@@ -116,14 +119,6 @@ class Solver:
             result.append(candidate)
 
         return result
-
-    def get_fake_neighbors(self, ignored):
-        tmp = []
-
-        for i in range(randrange(10) + 1):
-            tmp.append(self.generateDummySolution(1024))
-
-        return tmp
 
     def fitness(self, solution: Solution):
         distances_sum = 0
