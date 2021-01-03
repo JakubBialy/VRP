@@ -6,11 +6,17 @@ from solver import Solver
 # 1. Execute: pip install matplotlib
 # 2. Download basemap-1.2.2 (https://download.lfd.uci.edu/pythonlibs/z4tqcw5k/basemap-1.2.2-cp39-cp39-win_amd64.whl)
 # 3. Execute: pip install basemap-1.2.2-cp39-cp39-win_amd64.whl
+#
+# If run fails:
+# 4. Execute: pip uninstall numpy
+# 5. pip install numpy==1.19.3
+
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 
 ##Params
-maxTabuSize = 8  # todo pobrac wartosc od usera
+
+maxTabuSize = 8
 mutation_rate = 0.05
 
 ##Problem
@@ -48,26 +54,23 @@ cities = [
 ]
 
 fig = plt.figure(figsize=(8, 8))
-m = m = Basemap(projection='gnom', lat_0=52, lon_0=19.25,
-                width=7E5, height=7E5, resolution='h')
+m = Basemap(projection='gnom', lat_0=52, lon_0=19.25,
+            width=7E5, height=7E5, resolution='h')
 
 m.fillcontinents(color="#FFDDCC", lake_color='#DDEEFF')
 m.drawmapboundary(fill_color="#DDEEFF")
 m.drawcountries()
 
-
 for city in cities:
     x, y = m(city.longitude, city.latitude)
     plt.plot(x, y, 'ok', markersize=5)
 
-    if city.name == 'Gliwice' :
+    if city.name == 'Gliwice':
         plt.text(x, y, city.name + '  ', fontsize=7, horizontalalignment='right')
     else:
         plt.text(x, y, '  ' + city.name, fontsize=7)
 
 fig.tight_layout()
-plt.show()
-
 
 p = Problem(5, 1000, cities)
 solver = Solver(p, mutation_rate)
@@ -79,7 +82,7 @@ bestCandidate = s0
 tabuList = []
 tabuList.append(s0)
 iterations = 0
-max_iterations = 16_000
+max_iterations = 1_000
 
 while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
     # sNeighborHood = solver.get_neighbors(bestCandidate)
@@ -103,3 +106,19 @@ while (iterations < max_iterations):  # Dodać warunek wyjścia z pętli
     iterations = iterations + 1
 
 print(sBest)
+
+for index, singleCarSolution in enumerate(sBest.single_car_solutions):
+    roadLatitude = [singleCarSolution.base.latitude]
+    roadLongitude = [singleCarSolution.base.longitude]
+
+    for cityToVisit in singleCarSolution.cities:
+        roadLatitude.append(cityToVisit.latitude)
+        roadLongitude.append(cityToVisit.longitude)
+
+    roadLatitude.append(singleCarSolution.base.latitude)
+    roadLongitude.append(singleCarSolution.base.longitude)
+
+    x, y = m(roadLongitude, roadLatitude)
+    m.plot(x, y, 'o-', markersize=5, linewidth=1)
+
+plt.show()
