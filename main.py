@@ -52,35 +52,40 @@ number_of_cars = input("Enter number of cars [int]: ")  # 5
 try:
     number_of_cars = int(number_of_cars)
 except ValueError:
-    print(colored("[Parse error] Number of cars default value (5) loaded", 'red'))
+    print(colored("[Parse error] Wrong data input", 'red'))
+    print(colored("Number of cars default value (5) loaded", 'green'))
     number_of_cars = 5
 
 car_capacity = input("Enter car capacity [int]: ")  # 1_000
 try:
     car_capacity = int(car_capacity)
 except ValueError:
-    print(colored("[Parse error] Car capacity default value (1_000) loaded", 'red'))
+    print(colored("[Parse error] Wrong data input", 'red'))
+    print(colored("Car capacity default value (1_000) loaded", 'green'))
     car_capacity = 1_000
 
 maxTabuSize = input("Enter tabu list size [int]: ")  # 8
 try:
     maxTabuSize = int(maxTabuSize)
 except ValueError:
-    print(colored("[Parse error] Max Tabu Size default value (8) loaded", 'red'))
+    print(colored("[Parse error] Wrong data input", 'red'))
+    print(colored("Max Tabu Size default value (8) loaded", 'green'))
     maxTabuSize = 8
 
 mutation_rate = input("Enter mutation rate [float]: ")  # 0.05
 try:
     mutation_rate = float(mutation_rate)
 except ValueError:
-    print(colored("[Parse error] Mutation rate default value (0.05) loaded", 'red'))
+    print(colored("[Parse error] Wrong data input", 'red'))
+    print(colored("Mutation rate default value (0.05) loaded", 'green'))
     mutation_rate = 0.05
 
 max_iterations = input("Enter max iterations [int]: ")  # 10_000
 try:
     max_iterations = int(max_iterations)
 except ValueError:
-    print(colored("[Parse error] Max iteration default value (10_000) loaded", 'red'))
+    print(colored("[Parse error] Wrong data input", 'red'))
+    print(colored("Max iteration default value (10_000) loaded", 'green'))
     max_iterations = 10_000
 
 ## Algorithm
@@ -136,7 +141,8 @@ while (iterations < max_iterations):
     iterations = iterations + 1
 
 delta = (time() - t0)
-print(delta)
+print('Executed in: ')
+print("%.2f" % delta + ' s')
 print(sBest)
 
 for index, singleCarSolution in enumerate(sBest.single_car_solutions):
