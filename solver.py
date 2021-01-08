@@ -14,29 +14,27 @@ class Solver:
         tries_counter = 0
 
         while tries_counter < max_tries:
-            cities_copy = self.problem.cities[:]
+            free_cities = self.problem.cities[:]
             base_city = self.problem.cities[0]
             problem_solution = Solution()
 
             for current_car_index in range(self.problem.cars):
-                if len(cities_copy) > 0:
+                if len(free_cities) > 0:
 
                     car_cities = []
                     keep_searching = True
-                    while len(cities_copy) > 0 and keep_searching:
-                        random_city_index = randrange(len(cities_copy))
+                    while len(free_cities) > 0 and keep_searching:
+                        random_city_index = randrange(len(free_cities))
 
                         if car_cities is None:
                             car_cities_candidate = []
                         else:
                             car_cities_candidate = car_cities[:]
-                            car_cities_candidate.append(cities_copy[random_city_index])
+                            car_cities_candidate.append(free_cities[random_city_index])
 
-                        # if self.single_car_solution_fitness(
-                        #         Solution.SingleCarSolution(base_city, car_cities_candidate)) < self.problem.capacity:
-                        if self.compute_cities_demand(car_cities_candidate) < self.problem.capacity:
+                        if self.compute_cities_demand(car_cities_candidate) <= self.problem.capacity:
                             car_cities = car_cities_candidate
-                            del cities_copy[random_city_index]
+                            del free_cities[random_city_index]
                         else:
                             keep_searching = False
 
@@ -45,7 +43,7 @@ class Solver:
                     else:
                         return problem_solution
 
-            if len(cities_copy) == 0:
+            if len(free_cities) == 0 and problem_solution.is_valid_solution(self.problem):
                 # print("Initial solution found in " + str(tries_counter + 1) + " try!")
                 return problem_solution
 
@@ -104,7 +102,8 @@ class Solver:
             result.append(candidate)
 
         if include_v2:
-            result.extend(self.__get_neighbors_v2(bestCandidate))
+            candidate_v2 = self.__get_neighbors_v2(bestCandidate)
+            result.extend(candidate_v2)
 
         return result
 
@@ -113,7 +112,8 @@ class Solver:
 
         for i in range(randrange(16) + 1):
             candidate = self.generate_single_neighbour_v2(bestCandidate)
-            while not candidate.is_valid_solution(self.problem):
+            while (not candidate.is_valid_solution(self.problem)) or \
+                    0 in [len(x.cities) for x in candidate.single_car_solutions]:
                 candidate = self.generate_single_neighbour_v2(bestCandidate)
 
             result.append(candidate)

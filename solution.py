@@ -35,7 +35,6 @@ class Solution:
         else:
             return False
 
-
     # def __eq__(self, other):  # v3
     #     if not isinstance(other, Solution):
     #         return False
@@ -103,9 +102,20 @@ class Solution:
     def add_single_car_solution(self, single_car_solution: SingleCarSolution):
         self.single_car_solutions.append(single_car_solution)
 
-    def is_valid_solution(self, problem: Problem):
-        for sol in self.single_car_solutions:
-            if sol.compute_demand() > problem.capacity:
-                return False
+    def solution_contains_every_problem_city(self, problem: Problem):
+        if len(self.single_car_solutions) > 0:
+            solution_included_cities = sum([x.cities for x in self.single_car_solutions],
+                                           [self.single_car_solutions[0].base])
+        else:
+            solution_included_cities = sum([x.cities for x in self.single_car_solutions], [])
 
-        return True
+        return False not in [x in solution_included_cities for x in problem.cities]
+
+    def is_valid_solution(self, problem: Problem):
+
+        if self.solution_contains_every_problem_city(problem):
+            for sol in self.single_car_solutions:
+                if sol.compute_demand() <= problem.capacity:
+                    return True
+
+        return False
