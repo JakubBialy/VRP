@@ -114,8 +114,10 @@ class Solution:
     def is_valid_solution(self, problem: Problem):
 
         if self.solution_contains_every_problem_city(problem):
-            for sol in self.single_car_solutions:
-                if sol.compute_demand() <= problem.capacity:
-                    return True
+            if max([x.compute_demand() for x in self.single_car_solutions]) <= problem.capacity:
+                return True
+            # for sol in self.single_car_solutions:
+            #     if sol.compute_demand() <= problem.capacity:
+            #         return True
 
         return False
